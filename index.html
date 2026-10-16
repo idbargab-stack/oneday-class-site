@@ -181,7 +181,8 @@
                 <option value="weekend">주말</option>
               </select>
             </label>
-            <label class="consent"><input type="checkbox" name="consent" required><span>예약 안내를 위해 이름과 연락처를 모으고 쓰는 데 동의합니다. (필수)</span></label>
+            <label class="trap" aria-hidden="true">비워 두세요<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            <label class="consent"><input type="checkbox" name="consent" required><span>이름과 연락처는 예약 안내에만 쓰고, 안내가 끝나면 지웁니다. 이에 동의합니다. (필수)</span></label>
             <div class="actions">
               <button class="btn" type="submit" data-booking-submit>예약 준비중</button>
               <a class="btn btn-ghost" href="#top">처음으로</a>

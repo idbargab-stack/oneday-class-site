@@ -214,6 +214,7 @@ a { color: inherit; }
   padding: 8px 0;
 }
 .form input:focus-visible, .form select:focus-visible { outline: none; border-bottom-color: var(--blue); }
+.form .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form .consent { grid-template-columns: auto 1fr; gap: 10px; align-items: start; color: var(--ink-2); }
 .form .consent input { margin-top: 7px; accent-color: var(--ink); }
 .form .actions { justify-content: flex-end; margin-top: 8px; }

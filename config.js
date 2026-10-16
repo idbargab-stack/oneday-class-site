@@ -8,8 +8,8 @@ window.SITE_CONFIG = {
   //        (예약을 실제로 저장하려면 bookingEndpoint도 함께 연결해야 해요)
   bookingOpen: false,
 
-  // 예약을 저장할 주소 (Supabase + /api 연결 후 "/api/reserve" 로 바꿉니다)
-  bookingEndpoint: "",
+  // 예약을 저장할 주소 (Supabase에 저장 → /admin 관리자 페이지에서 확인)
+  bookingEndpoint: "/api/inquiry",
 
   // 정확해야 하는 사실 — 비어 있으면 "준비 중"으로 보여요.
   className: "캘리그라피 원데이 클래스",

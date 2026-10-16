@@ -45,8 +45,14 @@
       status.textContent = "예약 저장이 아직 연결되지 않았어요. 잠시 후 다시 시도해 주세요.";
       return;
     }
-    var data = Object.fromEntries(new FormData(form));
-    data.consent = Boolean(data.consent);
+    var when = form.elements.preferred;
+    var data = {
+      name: form.elements.name.value,
+      contact: form.elements.phone.value,
+      message: "희망하는 때: " + when.options[when.selectedIndex].text,
+      consent: form.elements.consent.checked,
+      website: form.elements.website.value,
+    };
     submit.disabled = true;
     status.textContent = "보내는 중이에요…";
     fetch(cfg.bookingEndpoint, {
@@ -55,12 +61,14 @@
       body: JSON.stringify(data),
     })
       .then(function (res) {
-        if (!res.ok) throw new Error(res.status);
-        form.reset();
-        status.textContent = "예약 신청을 보냈어요. 확인 후 연락드릴게요.";
+        return res.json().catch(function () { return {}; }).then(function (body) {
+          if (!res.ok) throw new Error(body.error || "예약 신청을 보내지 못했어요. 잠시 후 다시 시도해 주세요.");
+          form.reset();
+          status.textContent = "예약 신청이 접수됐어요. 확인 후 연락드릴게요.";
+        });
       })
-      .catch(function () {
-        status.textContent = "예약 신청을 보내지 못했어요. 잠시 후 다시 시도해 주세요.";
+      .catch(function (err) {
+        status.textContent = err.message || "예약 신청을 보내지 못했어요. 잠시 후 다시 시도해 주세요.";
       })
       .finally(function () { submit.disabled = false; });
   });

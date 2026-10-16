@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>예약 관리</title>
+  <style>
+    :root {
+      --ground: #EFE9DD; --ground-2: #E5DED0; --ink: #141C2B; --ink-2: #4A5364;
+      --muted: #767E8C; --blue: #2C4A8F; --hair: rgba(20, 28, 43, .16);
+    }
+    [hidden] { display: none !important; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--ground); color: var(--ink);
+      font: 16px/1.6 system-ui, "Noto Sans KR", sans-serif; word-break: keep-all;
+    }
+    main { max-width: 640px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { font-size: 20px; margin: 0 0 20px; }
+    button, input { font: inherit; border-radius: 0; }
+    .btn {
+      min-height: 48px; padding: 0 18px; cursor: pointer;
+      background: var(--ink); color: var(--ground); border: 1px solid var(--ink);
+    }
+    .btn-line { background: transparent; color: var(--ink); }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    .login { display: grid; gap: 12px; margin-top: 12vh; }
+    .login input {
+      min-height: 52px; padding: 0 14px; border: 1px solid var(--ink-2); background: #fff;
+    }
+    .msg { min-height: 1.6em; color: var(--blue); margin: 0; }
+
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .count { font-size: 15px; color: var(--ink-2); margin: 0 0 24px; }
+    .count strong { display: block; font-size: 44px; line-height: 1.1; color: var(--ink); }
+
+    .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .card { background: #fff; border: 1px solid var(--hair); padding: 16px; }
+    .card.is-new { border-left: 4px solid var(--blue); }
+    .card-head { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 14px; }
+    .name { font-size: 18px; font-weight: 700; margin: 6px 0 2px; }
+    .contact {
+      background: none; border: 0; padding: 6px 0; color: var(--blue);
+      text-decoration: underline; cursor: pointer; min-height: 40px;
+    }
+    .message { margin: 6px 0 12px; color: var(--ink-2); white-space: pre-wrap; }
+    .states { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .states button {
+      min-height: 44px; background: transparent; border: 1px solid var(--hair); color: var(--ink-2); cursor: pointer;
+    }
+    .states button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+    .empty { color: var(--muted); padding: 24px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>예약 관리</h1>
+
+    <form class="login" data-login>
+      <label for="pw">관리자 비밀번호</label>
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button class="btn" type="submit">들어가기</button>
+      <p class="msg" role="status" data-login-msg></p>
+    </form>
+
+    <section data-board hidden>
+      <div class="top">
+        <p class="count">새 예약 신청<strong data-new-count>0</strong></p>
+        <div>
+          <button class="btn btn-line" type="button" data-refresh>새로고침</button>
+          <button class="btn btn-line" type="button" data-logout>나가기</button>
+        </div>
+      </div>
+      <p class="msg" role="status" data-board-msg></p>
+      <ul class="list" data-list></ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var KEY = "adminPassword";
+      var STATUSES = ["새 문의", "연락함", "완료"];
+      var loginForm = document.querySelector("[data-login]");
+      var pwInput = document.getElementById("pw");
+      var loginMsg = document.querySelector("[data-login-msg]");
+      var board = document.querySelector("[data-board]");
+      var boardMsg = document.querySelector("[data-board-msg]");
+      var list = document.querySelector("[data-list]");
+      var newCount = document.querySelector("[data-new-count]");
+
+      function pw() { try { return sessionStorage.getItem(KEY) || ""; } catch (e) { return ""; } }
+      function setPw(v) { try { v ? sessionStorage.setItem(KEY, v) : sessionStorage.removeItem(KEY); } catch (e) {} }
+
+      function api(method, body) {
+        return fetch("/api/admin", {
+          method: method,
+          headers: { "x-admin-password": pw(), "Content-Type": "application/json" },
+          body: body ? JSON.stringify(body) : undefined,
+        }).then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            if (!res.ok) { var err = new Error(data.error || "불러오지 못했어요."); err.status = res.status; throw err; }
+            return data;
+          });
+        });
+      }
+
+      function showLogin(message) {
+        setPw("");
+        board.hidden = true;
+        loginForm.hidden = false;
+        loginMsg.textContent = message || "";
+        pwInput.value = "";
+        pwInput.focus();
+      }
+
+      function fmt(iso) {
+        var d = new Date(iso);
+        return d.toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+      }
+
+      function render(rows) {
+        newCount.textContent = rows.filter(function (r) { return r.status === "새 문의"; }).length;
+        list.textContent = "";
+        if (!rows.length) {
+          var empty = document.createElement("li");
+          empty.className = "empty";
+          empty.textContent = "아직 들어온 예약 신청이 없어요.";
+          list.appendChild(empty);
+          return;
+        }
+        rows.forEach(function (r) {
+          var li = document.createElement("li");
+          li.className = "card" + (r.status === "새 문의" ? " is-new" : "");
+
+          var head = document.createElement("div");
+          head.className = "card-head";
+          var date = document.createElement("span"); date.textContent = fmt(r.created_at);
+          var st = document.createElement("span"); st.textContent = r.status;
+          head.append(date, st);
+
+          var name = document.createElement("p"); name.className = "name"; name.textContent = r.name;
+
+          var contact = document.createElement("button");
+          contact.type = "button"; contact.className = "contact"; contact.textContent = r.contact;
+          contact.title = "눌러서 복사";
+          contact.addEventListener("click", function () {
+            navigator.clipboard.writeText(r.contact).then(function () {
+              boardMsg.textContent = "연락처를 복사했어요.";
+            }, function () {
+              var range = document.createRange(); range.selectNodeContents(contact);
+              var sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+              boardMsg.textContent = "연락처를 선택했어요. 길게 눌러 복사해 주세요.";
+            });
+          });
+
+          var msg = document.createElement("p"); msg.className = "message"; msg.textContent = r.message || "";
+
+          var states = document.createElement("div");
+          states.className = "states"; states.setAttribute("role", "group"); states.setAttribute("aria-label", "처리 상태");
+          STATUSES.forEach(function (s) {
+            var b = document.createElement("button");
+            b.type = "button"; b.textContent = s;
+            b.setAttribute("aria-pressed", String(r.status === s));
+            b.addEventListener("click", function () {
+              if (r.status === s) return;
+              api("PATCH", { id: r.id, status: s })
+                .then(function () { boardMsg.textContent = r.name + " 님을 '" + s + "'(으)로 바꿨어요."; load(); })
+                .catch(handleError);
+            });
+            states.appendChild(b);
+          });
+
+          li.append(head, name, contact, msg, states);
+          list.appendChild(li);
+        });
+      }
+
+      function handleError(err) {
+        if (err.status === 401) return showLogin("비밀번호가 맞지 않아요.");
+        (board.hidden ? loginMsg : boardMsg).textContent = err.message;
+      }
+
+      function load() {
+        return api("GET").then(function (data) {
+          loginForm.hidden = true;
+          board.hidden = false;
+          render(data.rows || []);
+        }).catch(handleError);
+      }
+
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        setPw(pwInput.value);
+        loginMsg.textContent = "확인하는 중이에요…";
+        load();
+      });
+      document.querySelector("[data-refresh]").addEventListener("click", function () { boardMsg.textContent = ""; load(); });
+      document.querySelector("[data-logout]").addEventListener("click", function () { showLogin(""); });
+
+      if (pw()) load(); else pwInput.focus();
+    })();
+  </script>
+</body>
+</html>
