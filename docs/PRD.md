@@ -75,6 +75,8 @@
 - 문의 저장: 예 → Supabase(leaderpl-admin 스킬) + /admin
 - 회원가입: 이번엔 아니요
 - 배포: GitHub 공개 저장소 + Vercel
+  - 사이트 주소: https://oneday-class-site.vercel.app
+  - 저장소: https://github.com/idbargab-stack/oneday-class-site (main에 Push하면 자동 배포)
 
 ## 13. 만드는 순서 (클로드가 처음부터 끝까지 한 번에)
 1. 스타일(색·글꼴)을 분위기에 맞게 정하고 첫 화면부터 만든다
