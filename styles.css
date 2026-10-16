@@ -1,0 +1,235 @@
+:root {
+  --pine: #1E3530;      /* 깊은 소나무색 — 첫 화면과 예약 영역 */
+  --pine-soft: #2C4A43;
+  --stone: #EEF0EC;     /* 차가운 돌빛 바탕 */
+  --brass: #B5925A;     /* 놋쇠빛 포인트 — 아껴서 씀 */
+  --ink: #23302C;       /* 본문 글자 */
+  --mist: #C8D1CC;      /* 구분선 */
+  --muted: #5E6B66;
+
+  --serif: "Gowun Batang", "Nanum Myeongjo", serif;
+  --sans: "Noto Sans KR", system-ui, sans-serif;
+
+  --gutter: clamp(20px, 5vw, 64px);
+  --measure: 38rem;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--stone);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* 윗줄 */
+.topbar {
+  position: absolute; inset: 0 0 auto 0; z-index: 2;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px var(--gutter);
+  color: var(--stone);
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  text-decoration: none;
+  margin: 0;
+}
+.topbar-cta {
+  font-size: .875rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--brass);
+  padding-bottom: 2px;
+}
+
+/* 첫 화면 */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--pine);
+  color: var(--stone);
+  min-height: min(92vh, 760px);
+  display: flex; align-items: flex-end;
+  padding: 140px var(--gutter) clamp(56px, 9vw, 104px);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 44rem; }
+.hero-class {
+  color: var(--brass);
+  font-size: .95rem;
+  margin: 0 0 20px;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 6.4vw, 4.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+}
+.hero-sub {
+  margin: 28px 0 0;
+  max-width: 30rem;
+  color: #D5DDD9;
+  font-size: 1.0625rem;
+}
+.hero-actions { margin-top: 40px; }
+.hero-note {
+  margin: 14px 0 0;
+  font-size: .875rem;
+  color: #A9B8B2;
+  max-width: 26rem;
+}
+
+/* 첫 화면의 시계 모양 — '하루'를 나타내는 단 하나의 장식 */
+.hero-dial {
+  position: absolute;
+  right: calc(var(--gutter) * -1 + 2vw);
+  top: 50%;
+  width: clamp(280px, 46vw, 620px);
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--brass);
+  stroke-width: .6;
+  opacity: .55;
+}
+.hero-dial line { stroke-width: 1.2; stroke-linecap: round; }
+
+/* 버튼 */
+.btn {
+  display: inline-block;
+  font: 500 1rem/1 var(--sans);
+  padding: 18px 34px;
+  border: 1px solid var(--brass);
+  background: var(--brass);
+  color: var(--pine);
+  text-decoration: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color .2s, color .2s;
+}
+.btn:hover { background: transparent; color: var(--brass); }
+.btn.is-closed,
+.btn:disabled {
+  background: transparent;
+  color: var(--brass);
+  cursor: not-allowed;
+}
+.btn-dark { background: var(--stone); border-color: var(--stone); color: var(--pine); }
+.btn-dark:hover { background: transparent; color: var(--stone); }
+.btn-dark:disabled { background: transparent; border-color: #6F8780; color: #8FA39C; }
+
+/* 본문 영역 */
+.block {
+  padding: clamp(64px, 10vw, 120px) var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 24px 64px;
+  border-bottom: 1px solid var(--mist);
+}
+.block h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.muted { color: var(--muted); margin: 0; }
+
+.audience-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+}
+.audience-list h3 { font-size: 1.25rem; margin-bottom: 10px; }
+.audience-list p { margin: 0; color: var(--muted); }
+
+.faq dl { margin: 0; }
+.faq-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 8px 40px;
+  padding: 22px 0;
+  border-top: 1px solid var(--mist);
+}
+.faq-row:first-child { border-top: 0; padding-top: 4px; }
+.faq dt { font-weight: 500; }
+.faq dd { margin: 0; color: var(--muted); }
+.faq dd.is-set, .teacher-text.is-set { color: var(--ink); }
+
+.teacher-text { margin: 0; max-width: var(--measure); color: var(--muted); font-size: 1.0625rem; }
+
+/* 예약 */
+.reserve {
+  background: var(--pine);
+  color: var(--stone);
+  padding: clamp(72px, 11vw, 128px) var(--gutter);
+}
+.reserve-inner { max-width: 34rem; }
+.reserve h2 { font-size: clamp(1.9rem, 4vw, 2.75rem); }
+.reserve-lead { color: #C3CFCA; margin: 16px 0 40px; }
+
+.reserve-form fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 22px; }
+.reserve-form fieldset:disabled label { opacity: .5; }
+.reserve-form label { display: grid; gap: 8px; font-size: .9375rem; }
+.reserve-form input[type="text"],
+.reserve-form input[type="tel"],
+.reserve-form select {
+  font: inherit;
+  color: var(--stone);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #5F7A72;
+  padding: 10px 0;
+  border-radius: 0;
+}
+.reserve-form select option { color: var(--ink); }
+.reserve-form input:focus-visible,
+.reserve-form select:focus-visible { outline: none; border-bottom-color: var(--brass); }
+.reserve-form .consent {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 12px;
+  font-size: .875rem;
+  color: #C3CFCA;
+}
+.reserve-form .consent input { margin-top: 6px; accent-color: var(--brass); }
+.reserve-form .btn { justify-self: start; margin-top: 8px; }
+.form-status { min-height: 1.75em; margin: 18px 0 0; color: var(--brass); }
+
+/* 아랫줄 */
+.footer {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px;
+  padding: 36px var(--gutter);
+  font-size: .875rem;
+  color: var(--muted);
+}
+.footer p { margin: 0; }
+
+/* 휴대폰 */
+@media (max-width: 760px) {
+  .block { grid-template-columns: 1fr; }
+  .audience-list { grid-template-columns: 1fr; gap: 28px; }
+  .faq-row { grid-template-columns: 1fr; }
+  .hero-dial { top: 18%; right: -30%; width: 120vw; opacity: .3; }
+  .hero h1 br { display: none; }
+}
