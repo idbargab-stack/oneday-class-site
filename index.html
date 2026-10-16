@@ -3,125 +3,200 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>원데이 클래스 — 하루, 하나를 완성하는 수업</title>
-  <meta name="description" content="평일에도 주말에도 들을 수 있는 원데이 클래스. 수업 일정과 가격은 지금 준비 중입니다.">
+  <title>원데이 클래스 — 하루 동안 한 획씩 쓰는 캘리그라피</title>
+  <meta name="description" content="평일에도 주말에도 들을 수 있는 캘리그라피 원데이 클래스. 수업 일정과 가격은 지금 준비 중입니다.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Courier+Prime:wght@400;700&family=Gowun+Batang:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#top">원데이 클래스</a>
-    <a class="topbar-cta" href="#reserve" data-booking-label>예약 준비중</a>
-  </header>
+  <nav class="nav" aria-label="주요 메뉴">
+    <a class="nav-mark" href="#top">원데이 클래스<span>.</span></a>
+    <div class="nav-links">
+      <a href="#for">대상</a>
+      <a href="#demo">미리 보기</a>
+      <a href="#info">수업 안내</a>
+      <a class="btn btn-small" href="#reserve" data-booking-label>예약 준비중</a>
+    </div>
+  </nav>
+
+  <!-- 화면을 따라다니는 만년필 (하나만 두고 스크롤에 맞춰 움직임) -->
+  <div class="traveller" aria-hidden="true" data-traveller>
+    <svg viewBox="0 0 420 70">
+      <rect x="10" y="17" width="190" height="36" fill="#141C2B"/>
+      <rect x="200" y="20" width="110" height="30" fill="#1E2738"/>
+      <line x1="200" y1="18" x2="200" y2="52" stroke="#E5DED0" stroke-width="3"/>
+      <line x1="30" y1="22" x2="150" y2="22" stroke="#4A5364" stroke-width="2"/>
+      <path d="M40 17 L40 8 L140 8 L140 17" fill="none" stroke="#767E8C" stroke-width="3"/>
+      <path d="M310 22 L360 30 L412 35 L360 40 L310 48 Z" fill="#767E8C"/>
+      <line x1="330" y1="35" x2="408" y2="35" stroke="#2C4A8F" stroke-width="1.5"/>
+      <circle cx="335" cy="35" r="3" fill="#141C2B"/>
+    </svg>
+  </div>
 
   <main id="top">
-    <section class="hero">
-      <div class="hero-inner">
-        <p class="hero-class" data-fact="className" data-empty="수업 종목은 곧 공개합니다"></p>
-        <h1>하루를 들여,<br>하나를 완성하는 수업</h1>
-        <p class="hero-sub">평일에도, 여유로운 주말에도.<br>하루 동안 처음부터 끝까지 함께 만듭니다.</p>
-        <div class="hero-actions">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="kicker" data-fact="className" data-empty="원데이 클래스"></p>
+        <h1>하루 동안, <em>한 획씩</em><br>내 글씨를 씁니다.</h1>
+        <p class="lede">평일에도, 주말에도. 펜과 붓을 처음 잡는 순간부터 한 장을 완성하기까지 하루를 함께 보냅니다.</p>
+        <div class="actions">
           <a class="btn" href="#reserve" data-booking-button aria-disabled="true">예약 준비중</a>
-          <p class="hero-note" data-booking-note>일정과 가격을 정리하고 있어요. 준비가 끝나면 이 버튼으로 바로 예약하실 수 있어요.</p>
+          <a class="btn btn-ghost" href="#demo">글씨 미리 보기</a>
         </div>
       </div>
-      <svg class="hero-dial" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="96" />
-        <circle cx="100" cy="100" r="70" />
-        <line x1="100" y1="100" x2="100" y2="38" />
-        <line x1="100" y1="100" x2="146" y2="118" />
-      </svg>
-    </section>
+      <dl class="spec-strip">
+        <div><dt>수업</dt><dd>평일 · 주말</dd></div>
+        <div><dt>가격</dt><dd data-fact="price" data-empty="준비 중"></dd></div>
+        <div><dt>시간</dt><dd data-fact="schedule" data-empty="준비 중"></dd></div>
+        <div><dt>예약</dt><dd data-booking-short>준비 중</dd></div>
+      </dl>
+      <p class="wordmark" data-wordmark aria-hidden="true">원데이클래스</p>
+    </header>
 
-    <section class="block audience" aria-labelledby="audience-title">
-      <h2 id="audience-title">이런 분께 맞춰 준비했어요</h2>
-      <div class="audience-list">
-        <div>
-          <h3>주중에도 배우고 싶은 분</h3>
-          <p>주말까지 기다리지 않고, 평일 중 하루를 내어 집중해서 배우고 싶은 분.</p>
-        </div>
-        <div>
-          <h3>새 취미를 찾는 직장인</h3>
-          <p>퇴근 후나 주말에 손으로 무언가를 만들며 머리를 쉬고 싶은 분.</p>
-        </div>
+    <section class="split" id="for" aria-labelledby="for-title">
+      <div class="split-head" data-reveal>
+        <h2 id="for-title">이런 분께 <em>맞춰</em> 준비했어요</h2>
+        <p class="lede">주말까지 기다리지 않아도 되고, 퇴근 뒤 머리를 쉬어 가도 됩니다. 손으로 쓰는 시간이 필요한 분이라면요.</p>
       </div>
-    </section>
-
-    <section class="block faq" aria-labelledby="faq-title">
-      <h2 id="faq-title">예약 전에 많이 묻는 것</h2>
-      <dl>
-        <div class="faq-row">
-          <dt>가격과 재료비는 얼마인가요?</dt>
-          <dd data-fact="price" data-empty="준비 중이에요. 재료비 포함 여부까지 함께 안내할게요."></dd>
+      <dl class="rows" data-reveal>
+        <div class="row">
+          <dt>대상</dt>
+          <dd>주중에도 시간을 내어 배우고 싶은 분</dd>
+          <dd class="val">평일</dd>
         </div>
-        <div class="faq-row">
-          <dt>언제, 몇 시간 동안 하나요?</dt>
-          <dd data-fact="schedule" data-empty="준비 중이에요. 평일과 주말 일정을 함께 열 예정이에요."></dd>
+        <div class="row">
+          <dt>대상</dt>
+          <dd>손으로 하는 새 취미를 찾는 직장인</dd>
+          <dd class="val">평일 · 주말</dd>
         </div>
-        <div class="faq-row">
-          <dt>처음인데 따라갈 수 있을까요?</dt>
-          <dd data-fact="beginner" data-empty="준비 중이에요. 수업 난이도를 정리해 안내할게요."></dd>
-        </div>
-        <div class="faq-row">
-          <dt>어디에서 하나요?</dt>
-          <dd data-fact="location" data-empty="준비 중이에요."></dd>
+        <div class="row">
+          <dt>준비물</dt>
+          <dd>필요한 도구는 수업에서 함께 안내합니다</dd>
+          <dd class="val" data-fact="materials" data-empty="준비 중"></dd>
         </div>
       </dl>
     </section>
 
-    <section class="block teacher" aria-labelledby="teacher-title">
-      <h2 id="teacher-title">가르치는 사람</h2>
-      <p class="teacher-text" data-fact="teacher" data-empty="강사 경력과 자격을 정리해 곧 이곳에 소개할게요."></p>
+    <section class="demo" id="demo" aria-labelledby="demo-title">
+      <div class="demo-head" data-reveal>
+        <h2 id="demo-title">같은 글자도 <em>도구에 따라</em> 달라집니다</h2>
+        <div class="variants" role="group" aria-label="도구 고르기">
+          <button type="button" class="variant" aria-pressed="true" data-variant="pen">만년필</button>
+          <button type="button" class="variant" aria-pressed="false" data-variant="fine">세필붓</button>
+          <button type="button" class="variant" aria-pressed="false" data-variant="brush">큰 붓</button>
+        </div>
+      </div>
+      <figure class="panel" data-reveal>
+        <svg class="writing" viewBox="0 0 520 300" role="img" aria-labelledby="writing-label" data-writing>
+          <title id="writing-label">'하루'라는 글자가 한 획씩 써지는 모습</title>
+          <g fill="none" stroke="#141C2B" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M78 62 L118 72"/>
+            <path d="M48 102 C84 96,124 94,156 101"/>
+            <path d="M102 124 C74 124,60 148,66 170 C72 194,108 200,126 182 C142 165,136 128,102 124"/>
+            <path d="M196 48 C194 118,196 190,199 256"/>
+            <path d="M199 140 L242 134"/>
+            <path d="M296 58 C338 55,370 54,394 58 C392 74,388 88,384 98 C352 98,324 100,306 103 C304 116,303 126,303 136 C338 134,372 132,404 135"/>
+            <path d="M278 182 C340 172,420 170,474 177"/>
+            <path d="M376 179 C377 206,375 232,373 262"/>
+          </g>
+        </svg>
+        <figcaption>
+          <dl class="facts">
+            <div><dt>도구</dt><dd data-fact-out="tool">만년필</dd></div>
+            <div><dt>선 굵기</dt><dd data-fact-out="width">3.5</dd></div>
+            <div><dt>그리는 시간</dt><dd data-fact-out="time">2초</dd></div>
+          </dl>
+        </figcaption>
+      </figure>
     </section>
 
-    <section class="block reviews" aria-labelledby="reviews-title">
-      <h2 id="reviews-title">수강 후기</h2>
-      <p class="muted">첫 수업이 끝나면, 실제로 들으신 분들의 이야기를 이곳에 싣습니다.</p>
+    <section class="split alt" id="info" aria-labelledby="info-title">
+      <div class="split-head" data-reveal>
+        <h2 id="info-title">예약 전에 <em>많이 묻는</em> 것</h2>
+        <p class="lede">아직 정하고 있는 것은 그대로 "준비 중"이라고 적어 둡니다. 정해지는 대로 이 자리를 채웁니다.</p>
+      </div>
+      <dl class="rows" data-reveal>
+        <div class="row">
+          <dt>가격</dt>
+          <dd>수강료와 재료비 포함 여부</dd>
+          <dd class="val" data-fact="price" data-empty="준비 중"></dd>
+        </div>
+        <div class="row">
+          <dt>일정</dt>
+          <dd>평일과 주말 수업 날짜, 수업 길이</dd>
+          <dd class="val" data-fact="schedule" data-empty="준비 중"></dd>
+        </div>
+        <div class="row">
+          <dt>난이도</dt>
+          <dd>처음 펜을 잡는 분도 따라올 수 있는지</dd>
+          <dd class="val" data-fact="beginner" data-empty="준비 중"></dd>
+        </div>
+        <div class="row">
+          <dt>장소</dt>
+          <dd>수업을 여는 곳</dd>
+          <dd class="val" data-fact="location" data-empty="준비 중"></dd>
+        </div>
+      </dl>
     </section>
 
-    <section class="reserve" id="reserve" aria-labelledby="reserve-title">
-      <div class="reserve-inner">
-        <h2 id="reserve-title" data-booking-title>예약 준비중</h2>
-        <p class="reserve-lead" data-booking-lead>지금은 예약을 받지 않아요. 일정과 가격이 정해지면 이 자리에서 바로 신청하실 수 있어요.</p>
+    <section class="measure" aria-labelledby="who-title">
+      <h2 id="who-title" data-reveal>가르치는 사람과 <em>후기</em></h2>
+      <dl class="rows" data-reveal>
+        <div class="row">
+          <dt>강사</dt>
+          <dd>경력과 자격</dd>
+          <dd class="val" data-fact="teacher" data-empty="준비 중"></dd>
+        </div>
+        <div class="row">
+          <dt>후기</dt>
+          <dd>첫 수업이 끝나면 실제로 들으신 분들의 이야기를 싣습니다</dd>
+          <dd class="val">아직 없음</dd>
+        </div>
+        <div class="row">
+          <dt>문의</dt>
+          <dd>궁금한 점은 이 연락처로</dd>
+          <dd class="val" data-fact="contact" data-empty="준비 중"></dd>
+        </div>
+      </dl>
+    </section>
 
-        <form class="reserve-form" data-booking-form novalidate>
+    <section class="close" id="reserve" aria-labelledby="reserve-title">
+      <div class="close-top">
+        <div>
+          <h2 id="reserve-title" data-booking-title>예약은 <em>곧</em> 열립니다.</h2>
+          <p class="fine" data-booking-lead>지금은 예약을 받지 않아요. 일정과 가격이 정해지면 이 자리에서 바로 신청하실 수 있어요.</p>
+        </div>
+        <form class="form" data-booking-form novalidate>
           <fieldset data-booking-fieldset disabled>
             <legend class="sr-only">예약 신청서</legend>
-            <label>
-              <span>이름</span>
-              <input type="text" name="name" autocomplete="name" required>
-            </label>
-            <label>
-              <span>연락처</span>
-              <input type="tel" name="phone" autocomplete="tel" required placeholder="010-0000-0000">
-            </label>
-            <label>
-              <span>희망하는 때</span>
+            <label><span>이름</span><input type="text" name="name" autocomplete="name" required></label>
+            <label><span>연락처</span><input type="tel" name="phone" autocomplete="tel" required placeholder="010-0000-0000"></label>
+            <label><span>희망하는 때</span>
               <select name="preferred" required>
                 <option value="">골라 주세요</option>
                 <option value="weekday">평일</option>
                 <option value="weekend">주말</option>
               </select>
             </label>
-            <label class="consent">
-              <input type="checkbox" name="consent" required>
-              <span>예약 안내를 위해 이름과 연락처를 모으고 쓰는 데 동의합니다. (필수)</span>
-            </label>
-            <button class="btn btn-dark" type="submit" data-booking-submit>예약 준비중</button>
+            <label class="consent"><input type="checkbox" name="consent" required><span>예약 안내를 위해 이름과 연락처를 모으고 쓰는 데 동의합니다. (필수)</span></label>
+            <div class="actions">
+              <button class="btn" type="submit" data-booking-submit>예약 준비중</button>
+              <a class="btn btn-ghost" href="#top">처음으로</a>
+            </div>
           </fieldset>
-          <p class="form-status" role="status" data-booking-status></p>
+          <p class="status" role="status" data-booking-status></p>
         </form>
       </div>
+      <footer class="foot">
+        <span>원데이 클래스</span>
+        <span>문의 <span data-fact="contact" data-empty="준비 중"></span></span>
+      </footer>
+      <p class="wordmark wordmark-close" aria-hidden="true">원데이클래스</p>
     </section>
   </main>
-
-  <footer class="footer">
-    <p class="brand">원데이 클래스</p>
-    <p>문의 <span data-fact="contact" data-empty="연락처 준비 중"></span></p>
-  </footer>
 
   <script src="main.js"></script>
 </body>
